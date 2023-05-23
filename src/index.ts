@@ -1,50 +1,18 @@
 const fs = require('fs-extra')
 const path = require('path')
-import { IPluginOptions } from './index.d'
 
-const logPrefix = '[howxm-widget]'
+import { defaultOptions, logPrefix, pagesFolder } from './constant'
+import findTargetFiles from './findTargetFiles'
 
-function findTsxFiles(dir, options, callback) {
-    fs.readdir(dir, (err, files) => {
-        if (err) {
-            console.error(`${logPrefix}Error while reading directory ${dir}:`, err)
-            return
-        }
-
-        files.forEach(file => {
-            const filePath = path.join(dir, file)
-            fs.stat(filePath, (err, stats) => {
-                if (err) {
-                    console.error(`${logPrefix}Error while getting file stats for ${filePath}:`, err)
-                    return
-                }
-
-                if (stats.isDirectory()) {
-                    findTsxFiles(filePath, options.fileExtension, callback)
-                } else if (stats.isFile() && path.extname(filePath) === `.${options.fileExtension}`) {
-                    callback(filePath)
-                }
-            })
-        })
-    })
-}
-
-const pagesFolder = 'pages'
-
-const defaultOptions: IPluginOptions = {
-    fileExtension: 'tsx',
-}
-
-
-export default (ctx, options: IPluginOptions = defaultOptions) => {
+export default (ctx, options = defaultOptions) => {
 
     ctx.onBuildFinish(() => {
-        console.log(`${logPrefix}编译结束，开始处理howxm-widget引入`)
+        console.log(`${logPrefix}编译结束，开始处理howxm-widget引入! the options is ${JSON.stringify(options)}`)
         
         const srcPath = path.resolve(__dirname, `${ctx.paths.sourcePath}/${pagesFolder}`)
         const outputPath = path.resolve(__dirname, `${ctx.paths.outputPath}/${pagesFolder}`)
 
-        findTsxFiles(srcPath, options, (file) => {
+        findTargetFiles(srcPath, options, (file) => {
             fs.readFile(file, 'utf8', (err, data) => {
                 if (err) {
                     console.error(`${logPrefix}Error while reading file ${file}:`, err)

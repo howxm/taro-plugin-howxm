@@ -6,7 +6,7 @@ taro在打包的时候将引用到的`<howxm-widget />`全部打包到了模板�
 
 因此在弹出的时候， 会遇到一个报错：`component is not attached on current page`，这就是当前页面没有找到howxm-widget的组件模板导致的。
 
-查找官方issue，找到一个问题[aro使用webpack5进行开发时编译后, 报错找不到模板](https://github.com/NervJS/taro/issues/12553)，
+查找官方issue，找到一个问题[taro使用webpack5进行开发时编译后, 报错找不到模板](https://github.com/NervJS/taro/issues/12553)，
 尝试了下面的解决方案，都未解决。
 
 ## 临时解决方案

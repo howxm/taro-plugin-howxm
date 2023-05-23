@@ -4,5 +4,24 @@
   "main": "index.js",
   "repository": "https://github.com/silence717/taro-plugin-howxm.git",
   "author": "fang.yang <yangfang2028@126.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run clean && npm run prod",
+    "prod": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "files": [
+    "src",
+    "dist",
+    "index.js",
+    "package.json"
+  ],
+  "keywords": [
+    "Taro",
+    "Howxm"
+  ],
+  "devDependencies": {
+    "@types/node": "^20.2.3",
+    "typescript": "^5.0.4"
+  }
 }

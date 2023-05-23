@@ -20,7 +20,7 @@ export default function findTargetFiles(dir, options, callback) {
 				
 				if (stats.isDirectory()) {
 					findTargetFiles(filePath, options, callback)
-				} else if (stats.isFile() && path.extname(filePath) === `.${options.fileExtension}`) {
+				} else if (stats.isFile() && options.fileExtensions.includes(path.extname(filePath))) {
 					callback(filePath)
 				}
 			})

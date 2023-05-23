@@ -4,15 +4,17 @@ const path = require('path')
 import { defaultOptions, logPrefix, pagesFolder } from './constant'
 import findTargetFiles from './findTargetFiles'
 
-export default (ctx, options = defaultOptions) => {
-
+export default (ctx, options) => {
+    
+    const finalOptions = options ?? defaultOptions
+    
     ctx.onBuildFinish(() => {
-        console.log(`${logPrefix}编译结束，开始处理howxm-widget引入! the options is ${JSON.stringify(options)}`)
+        console.log(`${logPrefix}编译结束，开始处理howxm-widget引入! the options is ${JSON.stringify(options)}, final options is ${JSON.stringify(finalOptions)}`)
         
         const srcPath = path.resolve(__dirname, `${ctx.paths.sourcePath}/${pagesFolder}`)
         const outputPath = path.resolve(__dirname, `${ctx.paths.outputPath}/${pagesFolder}`)
 
-        findTargetFiles(srcPath, options, (file) => {
+        findTargetFiles(srcPath, finalOptions, (file) => {
             fs.readFile(file, 'utf8', (err, data) => {
                 if (err) {
                     console.error(`${logPrefix}Error while reading file ${file}:`, err)
@@ -25,7 +27,7 @@ export default (ctx, options = defaultOptions) => {
                     console.log(`${logPrefix}Found 'howxm-widget' in file: ${file}, relative directory: ${relativeDir}`)
 
                     // 构造 outputPath 下的相应 *.wxml 文件路径
-                    const wxmlFile = path.join(outputPath, relativeDir, path.basename(file, `.${options.fileExtension}`) + '.wxml')
+                    const wxmlFile = path.join(outputPath, relativeDir, path.basename(file, path.extname(file)) + '.wxml')
 
                     // 读取原 *.wxml 文件内容
                     fs.readFile(wxmlFile, 'utf8', (err, wxmlData) => {

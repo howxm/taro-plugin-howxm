@@ -1,9 +1,9 @@
-import {IPluginOptions} from './index.d'
+import { IPluginOptions } from './index.d'
 
-export const logPrefix = '[howxm-widget]'
+export const logPrefix = '[taro-plugin-howxm]'
 
 export const pagesFolder = 'pages'
 
 export const defaultOptions: IPluginOptions = {
-	fileExtension: 'tsx',
+	fileExtensions: ['.tsx', '.jsx'],
 }

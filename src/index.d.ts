@@ -1,3 +1,3 @@
 export interface IPluginOptions {
-    fileExtension?: string
+    fileExtensions?: string[]
 }

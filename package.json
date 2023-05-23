@@ -6,12 +6,13 @@
   "author": "fang.yang <yangfang2028@126.com>",
   "license": "MIT",
   "scripts": {
-    "build": "npm run clean && npm run prod",
-    "prod": "tsc",
-    "clean": "rm -rf dist"
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "prerelease": "npm run build",
+    "release": "standard-version"
   },
   "files": [
-    "src",
+    "README.md",
     "dist",
     "index.js",
     "package.json"
@@ -20,8 +21,14 @@
     "Taro",
     "Howxm"
   ],
+  "standard-version": {
+    "skip": {
+      "changelog": true
+    }
+  },
   "devDependencies": {
     "@types/node": "^20.2.3",
+    "standard-version": "^9.5.0",
     "typescript": "^5.0.4"
   }
 }

@@ -4,6 +4,7 @@ const fs = require('fs-extra')
 import { logPrefix } from './constant'
 
 export default function findTargetFiles(dir, options, callback) {
+	
 	fs.readdir(dir, (err, files) => {
 		if (err) {
 			console.error(`${logPrefix}Error while reading directory ${dir}:`, err)
@@ -18,9 +19,11 @@ export default function findTargetFiles(dir, options, callback) {
 					return
 				}
 				
+				const fileExtensions = options?.fileExtensions ? options.fileExtensions : ['.tsx', '.jsx']
+				
 				if (stats.isDirectory()) {
 					findTargetFiles(filePath, options, callback)
-				} else if (stats.isFile() && options.fileExtensions.includes(path.extname(filePath))) {
+				} else if (stats.isFile() && fileExtensions.includes(path.extname(filePath))) {
 					callback(filePath)
 				}
 			})

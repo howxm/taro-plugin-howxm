@@ -1,20 +1,18 @@
 const fs = require('fs-extra')
 const path = require('path')
 
-import { defaultOptions, logPrefix, pagesFolder } from './constant'
+import { logPrefix, pagesFolder } from './constant'
 import findTargetFiles from './findTargetFiles'
 
 export default (ctx, options) => {
     
-    const finalOptions = options ?? defaultOptions
-    
     ctx.onBuildFinish(() => {
-        console.log(`${logPrefix}编译结束，开始处理howxm-widget引入! the options is ${JSON.stringify(options)}, final options is ${JSON.stringify(finalOptions)}`)
+        console.log(`${logPrefix}编译结束，开始处理howxm-widget引入! the options is ${JSON.stringify(options)}`)
         
         const srcPath = path.resolve(__dirname, `${ctx.paths.sourcePath}/${pagesFolder}`)
         const outputPath = path.resolve(__dirname, `${ctx.paths.outputPath}/${pagesFolder}`)
 
-        findTargetFiles(srcPath, finalOptions, (file) => {
+        findTargetFiles(srcPath, options, (file) => {
             fs.readFile(file, 'utf8', (err, data) => {
                 if (err) {
                     console.error(`${logPrefix}Error while reading file ${file}:`, err)

@@ -35,7 +35,8 @@ export default (ctx, options) => {
                         }
 
                         // 在原文件内容末尾添加 <howxm-widget />
-                        const updatedWxmlData = wxmlData + '\n<howxm-widget />'
+                        const appendHowxm = options.appId ? `\n<howxm-widget appId="${options.appId}" />` : '\n<howxm-widget />'
+                        const updatedWxmlData = wxmlData + appendHowxm
 
                         // 将更新后的内容写回 *.wxml 文件
                         fs.writeFile(wxmlFile, updatedWxmlData, (err) => {

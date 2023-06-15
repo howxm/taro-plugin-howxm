@@ -34,7 +34,7 @@ export default (ctx, options) => {
                     
                     while ((matches = regex.exec(data)) !== null) {
                         const pathValue = matches[1]
-                        let widgetTag = `<howxm-widget path="${pathValue}"`
+                        let widgetTag = `\n<howxm-widget path="${pathValue}"`
                         
                         if (pathValue && options.appId) {
                             widgetTag += ` appId="${options.appId}"`;

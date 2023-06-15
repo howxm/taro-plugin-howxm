@@ -26,7 +26,24 @@ export default (ctx, options) => {
 
                     // 构造 outputPath 下的相应 *.wxml 文件路径
                     const wxmlFile = path.join(outputPath, relativeDir, path.basename(file, path.extname(file)) + '.wxml')
-
+                    
+                    // 使用正则表达式匹配并提取信息
+                    const regex = /<howxm-widget\s+path="([^"]*)"\s*\/>/g
+                    let matches
+                    let result = ''
+                    
+                    while ((matches = regex.exec(data)) !== null) {
+                        const pathValue = matches[1]
+                        let widgetTag = `<howxm-widget path="${pathValue}"`
+                        
+                        if (pathValue && options.appId) {
+                            widgetTag += ` appId="${options.appId}"`;
+                        }
+                        
+                        widgetTag += ' />\n'
+                        result += widgetTag
+                    }
+                    
                     // 读取原 *.wxml 文件内容
                     fs.readFile(wxmlFile, 'utf8', (err, wxmlData) => {
                         if (err) {
@@ -35,8 +52,7 @@ export default (ctx, options) => {
                         }
 
                         // 在原文件内容末尾添加 <howxm-widget />
-                        const appendHowxm = options.appId ? `\n<howxm-widget appId="${options.appId}" />` : '\n<howxm-widget />'
-                        const updatedWxmlData = wxmlData + appendHowxm
+                        const updatedWxmlData = wxmlData + result
 
                         // 将更新后的内容写回 *.wxml 文件
                         fs.writeFile(wxmlFile, updatedWxmlData, (err) => {

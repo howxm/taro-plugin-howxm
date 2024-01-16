@@ -37,17 +37,20 @@ const config = {
 #### 配置项
 插件可以接受如下参数：  
 
-| 参数            |  类型 | 用途                | 必填  | 默认值              |
-|---------------|---|-------------------|-----|------------------|
-| fileExtension |   string[] | 原文件后缀             | 非必填 | ['.tsx', '.jsx'] |
-| appId         |   string | 应用Id，解决偶发小程序初始化失败 | 非必填 | -                |
+| 参数            | 类型       | 用途                   | 必填  | 默认值              |
+|---------------|----------|----------------------|-----|------------------|
+| fileExtension | string[] | 原文件后缀                | 非必填 | ['.tsx', '.jsx'] |
+| appId         | string   | 应用Id，解决偶发小程序初始化失败    | 非必填 | -                |
+| pageFolders   | string[] | 需要增加插件的文件目录          | 非必填 | ['pages']        |
 
 如果想要处理的文件类型不是默认的，那么可以配置此项，会覆盖默认的文件类型，配置如下：
 ```js
 const config = {
     ...
     plugins: [['taro-plugin-howxm', {
-        fileExtensions: ['.tsx', '.jsx']
+        fileExtensions: ['.tsx', '.jsx'],
+        // taro存在独立分包，因此提供此配置供用户可以自定义需要插入插件的目录，默认为 ['pages']
+        pageFolders: ['pages', 'moduleA']
     }]]
     ...
 }
